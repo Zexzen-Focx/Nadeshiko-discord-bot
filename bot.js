@@ -65,8 +65,8 @@ client.on('message', message => {
 			const user = message.mentions.users.first();
 			
 			const embed_msg = new RichEmbed()
-				.setTitle(data.imgs.pat.title)
-				.setImage(data.imgs.pat.url);
+				.setTitle(data.imgs.poke.title)
+				.setImage(data.imgs.poke.url);
 			
 			if(user){
 				if(message.author.username.toString()===user.username){
@@ -83,8 +83,8 @@ client.on('message', message => {
 			const user = message.mentions.users.first();
 			
 			const embed_msg = new RichEmbed()
-				.setTitle(data.imgs.poke.title)
-				.setImage(data.imgs.poke.url);
+				.setTitle(data.imgs.pat.title)
+				.setImage(data.imgs.pat.url);
 			
 			if(user){
 				if(message.author.username.toString()===user.username){
