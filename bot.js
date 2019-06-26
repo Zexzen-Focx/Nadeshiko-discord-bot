@@ -22,12 +22,12 @@ client.on('message', message => {
 		const cmd = message.content.slice(1);
 		
 		if (cmd.startsWith('help')) {
-			message.channel.send('Help is work in progress, please be patient',{
+			message.channel.send('\n**Prefix**: '+config.prefix+'\n\n**Commands**:\n-**boop <user, optional>** - Boop someone, what do you expect\n**-convert <temperature, example: 24C>** - Convert Temperature to Celcius, Kelvin, or Retarded',{
 				reply: message.author
 			});
 		}
 		
-		else if(cmd.startsWith('boop')){
+		if(cmd.startsWith('boop')){
 			const user = message.mentions.users.first();
 			
 			const embed_msg = new RichEmbed()
