@@ -4,8 +4,16 @@
 	},
 	"imgs":{
 		"boop": {
-			"title":"boop",
+			"title":"Boop!",
 			"url":"https://cdn.discordapp.com/attachments/492593927560495115/496600385545568256/Boop.gif"
+		},
+		"poke": {
+			"title":"Poooooke~",
+			"url":"https://cdn.discordapp.com/attachments/477664281559826446/593491429368528926/b6e.gif"
+		},
+		"pat": {
+			"title":"Pat... Pat...",
+			"url":"https://cdn.discordapp.com/attachments/477664281559826446/593492005804572677/kanna_pat.gif"
 		},
 		"danya": {
 			"title":"IDW DA NYAAAA",
