@@ -9,18 +9,18 @@ const client = new Client();
 
 var my_id;
 
-// function reminder(client) {
-    // (function loop() {	
-        // var now = new Date();
-		// console.log(now.getDate()+" "+now.getHours()+" "+now.getMinutes());
-        // if (now.getDate() === 16 && now.getHours() === 11 && now.getMinutes() === 17) {
-            // console.log("Remind");
-        // }
-        // now = new Date();                  // allow for time passing
-        // var delay = 60000 - (now % 60000); // exact ms to next minute interval
-        // setTimeout(loop, delay);
-    // })();
-// }
+function reminder(client) {
+    (function loop() {	
+        var now = new Date();
+		console.log(now.getDate()+" "+now.getHours()+" "+now.getMinutes());
+        if (now.getDate() === 16 && now.getHours() === 11 && now.getMinutes() === 17) {
+            console.log("Remind");
+        }
+        now = new Date();                  // allow for time passing
+        var delay = 60000 - (now % 60000); // exact ms to next minute interval
+        setTimeout(loop, delay);
+    })();
+}
 
 client.on('ready', () => {
 	my_id = client.user.id;
@@ -29,7 +29,7 @@ client.on('ready', () => {
 		.then(console.log('Status set successfully'))
 		.catch(console.error);
 		
-	// reminder(client);
+	reminder(client);
 	
 	console.log('I am ready!');
 });
