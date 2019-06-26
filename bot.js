@@ -1,17 +1,35 @@
 // Import the discord.js module
 const {Client, RichEmbed } = require('discord.js');
-
-// Get Related Files
 const config = require("./conf.json");
+const tokens = require("./tokens.json");
 const data = require("./data.json");
 
 // Create an instance of a Discord client
 const client = new Client();
 
+var my_id;
+
+// function reminder(client) {
+    // (function loop() {	
+        // var now = new Date();
+		// console.log(now.getDate()+" "+now.getHours()+" "+now.getMinutes());
+        // if (now.getDate() === 16 && now.getHours() === 11 && now.getMinutes() === 17) {
+            // console.log("Remind");
+        // }
+        // now = new Date();                  // allow for time passing
+        // var delay = 60000 - (now % 60000); // exact ms to next minute interval
+        // setTimeout(loop, delay);
+    // })();
+// }
+
 client.on('ready', () => {
+	my_id = client.user.id;
+	
 	client.user.setPresence({ game: { name: 'weeb games. Type '+config.prefix+'help for commands list' }, status: 'online' })
 		.then(console.log('Status set successfully'))
 		.catch(console.error);
+		
+	// reminder(client);
 	
 	console.log('I am ready!');
 });
@@ -27,7 +45,7 @@ client.on('message', message => {
 			});
 		}
 		
-		if(cmd.startsWith('boop')){
+		else if(cmd.startsWith('boop')){
 			const user = message.mentions.users.first();
 			
 			const embed_msg = new RichEmbed()
@@ -51,17 +69,17 @@ client.on('message', message => {
 			var converted = false;
 			
 			try{
-				if(message.content.endsWith('C')){
+				if(message.content.toLowerCase().endsWith('c')){
 					tempC = parseFloat(message.content.replace ( /[^\d.]/g, '' ));
 					tempF = (tempC*9/5)+32;
 					tempK = tempC+273.15;
 					converted = true;
-				}else if(message.content.endsWith('F')){
+				}else if(message.content.toLowerCase().endsWith('f')){
 					tempF = parseFloat(message.content.replace ( /[^\d.]/g, '' ));
 					tempC = (tempF-32)*5/9;
 					tempK = tempC+273.15;
 					converted = true;
-				}else if(message.content.endsWith('K')){
+				}else if(message.content.toLowerCase().endsWith('k')){
 					tempK = parseFloat(message.content.replace ( /[^\d.]/g, '' ));
 					tempC = tempK-273.15;
 					tempF = (tempC*9/5)+32;
@@ -79,7 +97,16 @@ client.on('message', message => {
 		}
 		
 	}else{
-		
+		if(message.mentions.users.first()){
+			if(message.mentions.users.first().id==my_id){
+				var msg = message.content.toLowerCase();
+				if(msg.startsWith('thank')||msg.startsWith('thx')||msg.startsWith('ty')){
+					message.channel.send('You\'re welcome ^^');
+				}
+			}else{
+			}
+		}else{
+		}
 	}
 	
 });
