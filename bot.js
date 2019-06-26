@@ -141,6 +141,7 @@ client.on('message', message => {
 				message.channel.send(embed_msg);
 			}else{
 				embed_msg.setDescription(message.author.username.toString()+' is poking... no one?');
+				message.channel.send(embed_msg);
 			}
 			
 		}
@@ -161,6 +162,7 @@ client.on('message', message => {
 				message.channel.send(embed_msg);
 			}else{
 				embed_msg.setDescription(message.author.username.toString()+' wants to pat someone but forgot to find someone to pat');
+				message.channel.send(embed_msg);
 			}
 			
 		}
