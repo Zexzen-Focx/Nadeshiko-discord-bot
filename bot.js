@@ -69,18 +69,18 @@ client.on('message', message => {
 			var converted = false;
 			
 			try{
-				if(message.content.toLowerCase().endsWith('c')){
-					tempC = parseFloat(message.content.replace ( /[^\d.]/g, '' ));
+				if(cmd.toLowerCase().endsWith('c')){
+					tempC = parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
 					tempF = (tempC*9/5)+32;
 					tempK = tempC+273.15;
 					converted = true;
-				}else if(message.content.toLowerCase().endsWith('f')){
-					tempF = parseFloat(message.content.replace ( /[^\d.]/g, '' ));
+				}else if(cmd.toLowerCase().endsWith('f')){
+					tempF = parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
 					tempC = (tempF-32)*5/9;
 					tempK = tempC+273.15;
 					converted = true;
-				}else if(message.content.toLowerCase().endsWith('k')){
-					tempK = parseFloat(message.content.replace ( /[^\d.]/g, '' ));
+				}else if(cmd.toLowerCase().endsWith('k')){
+					tempK = parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
 					tempC = tempK-273.15;
 					tempF = (tempC*9/5)+32;
 					converted = true;
@@ -88,6 +88,8 @@ client.on('message', message => {
 				
 				if(!converted){
 					message.channel.send('Gomen, I don\'t know that unit');
+				}else if (isNaN(tempC)||isNaN(tempF)||isNaN(tempK)){
+					message.channel.send('Oof, something went wrong, have you given me the right input?');
 				}else{
 					message.channel.send('Here are the conversion you asked:\n```'+tempC.toFixed(2)+' C\n'+tempF.toFixed(2)+' F\n'+tempK.toFixed(2)+' K```');
 				}
