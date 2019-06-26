@@ -1,0 +1,11 @@
+{
+	"commands":{
+		"help":"Get list of all commands available"
+	},
+	"imgs":{
+		"boop": {
+			"title":"boop",
+			"url":"https://cdn.discordapp.com/attachments/492593927560495115/496600385545568256/Boop.gif"
+		}
+	}
+}
