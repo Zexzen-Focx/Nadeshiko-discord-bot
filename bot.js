@@ -8,18 +8,18 @@ const client = new Client();
 
 var my_id;
 
-function reminder(client) {
-    (function loop() {	
-        var now = new Date();
-		console.log(now.getDate()+" "+now.getHours()+" "+now.getMinutes());
-        if (now.getDate() === 16 && now.getHours() === 11 && now.getMinutes() === 17) {
-            console.log("Remind");
-        }
-        now = new Date();                  // allow for time passing
-        var delay = 60000 - (now % 60000); // exact ms to next minute interval
-        setTimeout(loop, delay);
-    })();
-}
+// function reminder(client) {
+    // (function loop() {	
+        // var now = new Date();
+		// console.log(now.getDate()+" "+now.getHours()+" "+now.getMinutes());
+        // if (now.getDate() === 16 && now.getHours() === 11 && now.getMinutes() === 17) {
+            // console.log("Remind");
+        // }
+        // now = new Date();                  // allow for time passing
+        // var delay = 60000 - (now % 60000); // exact ms to next minute interval
+        // setTimeout(loop, delay);
+    // })();
+// }
 
 client.on('ready', () => {
 	my_id = client.user.id;
@@ -28,7 +28,7 @@ client.on('ready', () => {
 		.then(console.log('Status set successfully'))
 		.catch(console.error);
 		
-	reminder(client);
+	// reminder(client);
 	
 	console.log('I am ready!');
 });
@@ -56,6 +56,42 @@ client.on('message', message => {
 				message.channel.send(embed_msg);
 			}else{
 				embed_msg.setDescription('You have been booped by '+message.author.username.toString());
+				message.channel.send(embed_msg);
+			}
+			
+		}
+		
+		if(cmd.startsWith('poke')){
+			const user = message.mentions.users.first();
+			
+			const embed_msg = new RichEmbed()
+				.setTitle(data.imgs.pat.title)
+				.setImage(data.imgs.pat.url);
+			
+			if(user){
+				if(message.author.username.toString()===user.username){
+					embed_msg.setDescription(message.author.username.toString()+' is poking himself/herself, how lewd >///<');
+				}else{
+					embed_msg.setDescription(message.author.username.toString()+' is poking '+user.username);
+				}
+				message.channel.send(embed_msg);
+			}
+			
+		}
+		
+		if(cmd.startsWith('pat')){
+			const user = message.mentions.users.first();
+			
+			const embed_msg = new RichEmbed()
+				.setTitle(data.imgs.poke.title)
+				.setImage(data.imgs.poke.url);
+			
+			if(user){
+				if(message.author.username.toString()===user.username){
+					embed_msg.setDescription(message.author.username.toString()+' is patting himself/herself... Why?');
+				}else{
+					embed_msg.setDescription(message.author.username.toString()+' is patting '+user.username+'... There, there...');
+				}
 				message.channel.send(embed_msg);
 			}
 			
