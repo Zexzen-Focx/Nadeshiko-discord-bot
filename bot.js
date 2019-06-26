@@ -1,7 +1,6 @@
 // Import the discord.js module
 const {Client, RichEmbed } = require('discord.js');
 const config = require("./conf.json");
-const tokens = require("./tokens.json");
 const data = require("./data.json");
 
 // Create an instance of a Discord client
