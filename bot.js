@@ -37,15 +37,15 @@ client.on('ready', () => {
 //Bot Functions
 client.on('message', message => {
 	if(message.content.startsWith(config.prefix)){
-		const cmd = message.content.slice(1);
+		const cmd = message.content.slice(1).toLowerCase();
 		
 		if (cmd.startsWith('help')) {
-			message.channel.send('\n**Prefix**: '+config.prefix+'\n\n**Commands**:\n-**boop <user, optional>** - Boop someone, what do you expect\n**-convert <temperature, example: 24C>** - Convert Temperature to Celcius, Kelvin, or Retarded',{
+			message.channel.send('\n**Prefix**: '+config.prefix+'\n\n**Commands**:\n-**boop <user, optional>** - Boop someone, what do you expect\n-**idw** - Make a guess\n**-convert <temperature, example: 24C>** - Convert Temperature to Celcius, Kelvin, and Retarded\n\nDon\'t forget to thanks Nadeshiko for her services, or just greet her, no need the prefix.',{
 				reply: message.author
 			});
 		}
 		
-		else if(cmd.startsWith('boop')){
+		if(cmd.startsWith('boop')){
 			const user = message.mentions.users.first();
 			
 			const embed_msg = new RichEmbed()
@@ -61,6 +61,17 @@ client.on('message', message => {
 			}
 			
 		}
+		
+		if(cmd.startsWith('idw')||cmd.startsWith('danya')||cmd.startsWith('da nya')){
+			var idw = data.imgs.danya.url;
+			const embed_msg = new RichEmbed()
+				.setTitle(data.imgs.danya.title)
+				.setImage(idw[Math.floor(Math.random() * idw.length)]);
+			
+			embed_msg.setDescription('IDW here ! Are you the commander who is willing to adopt me ? I\'ll do my best !');			
+			message.channel.send(embed_msg);
+		}
+		
 		
 		if(cmd.startsWith('convert')){
 			var tempC;
@@ -102,8 +113,14 @@ client.on('message', message => {
 		if(message.mentions.users.first()){
 			if(message.mentions.users.first().id==my_id){
 				var msg = message.content.toLowerCase();
-				if(msg.startsWith('thank')||msg.startsWith('thx')||msg.startsWith('ty')){
+				if(msg.includes('thank')||msg.includes('thx')||msg.includes('ty')){
 					message.channel.send('You\'re welcome ^^');
+				}else if(msg.includes('good morning')||msg.includes('ohayou')){
+					message.channel.send('Ohayou Gozaimasu!');
+				}else if(msg.includes('good night')||msg.includes('oyasumi')){
+					message.channel.send('Good night, see you tomorrow.');
+				}else if(msg.includes('hello')||msg.startsWith('hi')||msg.startsWith('hai')){
+					message.channel.send('Hello~');
 				}
 			}else{
 			}
