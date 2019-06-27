@@ -189,7 +189,6 @@ client.on('message', message => {
 		}else{
 		}
 	}
-	
-
+});
 
 client.login(process.env.BOT_TOKEN);
