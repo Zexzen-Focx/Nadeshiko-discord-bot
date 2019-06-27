@@ -5,15 +5,19 @@
 	"imgs":{
 		"boop": {
 			"title":"Boop!",
-			"url":"https://cdn.discordapp.com/attachments/492593927560495115/496600385545568256/Boop.gif"
+			"url":["https://cdn.discordapp.com/attachments/492593927560495115/496600385545568256/Boop.gif","https://media2.giphy.com/media/JmbwX2xrXVi80/giphy.gif","https://i.imgur.com/sVzpgUc.gif"]
 		},
 		"poke": {
 			"title":"Poooooke~",
-			"url":"https://cdn.discordapp.com/attachments/477664281559826446/593491429368528926/b6e.gif"
+			"url":["https://cdn.discordapp.com/attachments/477664281559826446/593491429368528926/b6e.gif","https://pa1.narvii.com/5700/24709a19bf5cfc7ff889ee9eee3444a74bc7c33d_hq.gif","https://cdn.discordapp.com/attachments/492593927560495115/593871102497783818/ezgif-1-658b07365385.gif"]
 		},
 		"pat": {
 			"title":"Pat... Pat...",
-			"url":"https://cdn.discordapp.com/attachments/477664281559826446/593492005804572677/kanna_pat.gif"
+			"url":["https://cdn.discordapp.com/attachments/477664281559826446/593492005804572677/kanna_pat.gif","http://i.imgur.com/b3SzPZh.gif","https://media1.tenor.com/images/0476677fe8c841729594c6b3fa5652aa/tenor.gif","https://66.media.tumblr.com/cadf248febe96afdd6869b7a95600abb/tumblr_onjo4cGrZE1vhnny1o1_500.gif"]
+		},
+		"hug": {
+			"title":"Huggles",
+			"url":["https://cdn.discordapp.com/attachments/477664281559826446/593860489801629696/tumblr_p1ftuxzWMk1syeyvqo1_500.gif","https://media1.tenor.com/images/c0060df53661d3d89b586690a6ab4f0a/tenor.gif","https://media1.tenor.com/images/a2749980c33e440e526579ee5fc2e0a0/tenor.gif?itemid=5634620"]
 		},
 		"danya": {
 			"title":"IDW DA NYAAAA",
