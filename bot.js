@@ -24,7 +24,7 @@ var my_id;
 client.on('ready', () => {
 	my_id = client.user.id;
 	
-	client.user.setPresence({ game: { name: 'weeb games. Type '+config.prefix+'help for commands list' }, status: 'online' })
+	client.user.setPresence({ game: { name: 'with a trap. Type '+config.prefix+'help for commands list' }, status: 'online' })
 		.then(console.log('Status set successfully'))
 		.catch(console.error);
 		
@@ -39,7 +39,7 @@ client.on('message', message => {
 		const cmd = message.content.slice(1).toLowerCase();
 		
 		if (cmd.startsWith('help')) {
-			message.channel.send('\n**Prefix**: '+config.prefix+'\n\n**Commands**:\n-**boop <user>** - Boop someone, someone has been naughty...\n-**pat <user>** - Pat someone, let\'s cheer em\n-**poke <user>** - Poke someone, get their attention!\n-**idw** - Make a guess\n**-convert <temperature, example: 24C>** - Convert Temperature to Celcius, Kelvin, and Retarded\n\nDon\'t forget to thanks Nadeshiko for her services, or just greet her, no need the prefix, but **ping her** so she knows, she is a little bit klutz.\nDon\t forget to give her morning or night greetings, she likes it as well.',{
+			message.channel.send('\n**Prefix**: '+config.prefix+'\n\n**Commands**:\n-**boop <user>** - Boop someone, someone has been naughty...\n-**pat <user>** - Pat someone, let\'s cheer em\n-**poke <user>** - Poke someone, get their attention!\n-**idw** - Make a guess\n**-convert <temperature, example: 24C>** - Convert Temperature to Celcius, Kelvin, and Retarded\n\nDon\'t forget to thanks Nadeshiko for her services, or just greet her, no need the prefix, but **ping her** so she knows, she is a little bit klutz.\nDon\'t forget to give her morning or night greetings, she likes it as well.',{
 				reply: message.author
 			});
 		}
@@ -48,17 +48,16 @@ client.on('message', message => {
 			const user = message.mentions.users.first();
 			
 			const embed_msg = new RichEmbed()
-				.setTitle(data.imgs.boop.title)
-				.setImage(data.imgs.boop.url);
+				.setTitle(data.imgs.boop.title);
 			
 			if(user){
 				if(message.author.username.toString()===user.username){
-					embed_msg.setDescription(message.author.username.toString()+' booped him/herself. *Stop hitting yourself!  Stop hitting yourself!*');
+					embed_msg.setDescription(message.author.username.toString()+' wants me to hit him/her, are you sure?').setImage(data.imgs.boop.url[2]);
 				}
-				embed_msg.setDescription(user.username+' You have been booped by '+message.author.username.toString());
+				embed_msg.setDescription(user.username+' You have been booped by '+message.author.username.toString()).setImage(data.imgs.boop.url[0]);
 				message.channel.send(embed_msg);
 			}else{
-				embed_msg.setDescription(message.author.username.toString()+ ' is confused and booped him/herself in confusion');
+				embed_msg.setDescription(message.author.username.toString()+ ' is confused and booped him/herself in confusion').setImage(data.imgs.boop.url[1]);
 				message.channel.send(embed_msg);
 			}
 			
@@ -68,18 +67,37 @@ client.on('message', message => {
 			const user = message.mentions.users.first();
 			
 			const embed_msg = new RichEmbed()
-				.setTitle(data.imgs.poke.title)
-				.setImage(data.imgs.poke.url);
+				.setTitle(data.imgs.poke.title);
 			
 			if(user){
 				if(message.author.username.toString()===user.username){
-					embed_msg.setDescription(message.author.username.toString()+' is poking himself/herself, how lewd >///<');
+					embed_msg.setDescription(message.author.username.toString()+' wants me to hug him/her, but I am too embarrased >///<').setImage(data.imgs.poke.url[2]);
 				}else{
-					embed_msg.setDescription(message.author.username.toString()+' is poking '+user.username);
+					embed_msg.setDescription(message.author.username.toString()+' is poking '+user.username).setImage(data.imgs.poke.url[0]);
 				}
 				message.channel.send(embed_msg);
 			}else{
-				embed_msg.setDescription(message.author.username.toString()+' is poking... no one?');
+				embed_msg.setDescription(message.author.username.toString()+' has no one to poke so he/she is poking a pudding').setImage(data.imgs.poke.url[1]);
+				message.channel.send(embed_msg);
+			}
+			
+		}
+		
+		if(cmd.startsWith('hug')){
+			const user = message.mentions.users.first();
+			
+			const embed_msg = new RichEmbed()
+				.setTitle(data.imgs.hug.title);
+			
+			if(user){
+				if(message.author.username.toString()===user.username){
+					embed_msg.setDescription(message.author.username.toString()+' wants me to hug him/her, however we are separated by the screen, sorry ><').setImage(data.imgs.hug.url[1]);
+				}else{
+					embed_msg.setDescription(message.author.username.toString()+' is hugging '+user.username).setImage(data.imgs.hug.url[0]);
+				}
+				message.channel.send(embed_msg);
+			}else{
+				embed_msg.setDescription(message.author.username.toString()+' want to hug but failed to hug someone!').setImage(data.imgs.hug.url[2]);
 				message.channel.send(embed_msg);
 			}
 			
@@ -89,21 +107,21 @@ client.on('message', message => {
 			const user = message.mentions.users.first();
 			
 			const embed_msg = new RichEmbed()
-				.setTitle(data.imgs.pat.title)
-				.setImage(data.imgs.pat.url);
+				.setTitle(data.imgs.pat.title);
 			
 			if(user){
-				if(message.author.username.toString()===user.username){
-					embed_msg.setDescription(message.author.username.toString()+' is patting himself/herself... Why?');
+				if(user.id==="285248734579916801"){
+					embed_msg.setDescription(message.author.username.toString()+' is patting '+user.username+', cute kitty').setImage(data.imgs.pat.url[3]);
+				}else if(message.author.username.toString()===user.username){
+					embed_msg.setDescription(message.author.username.toString()+' is patting himself/herself...').setImage(data.imgs.pat.url[1]);
 				}else{
-					embed_msg.setDescription(message.author.username.toString()+' is patting '+user.username+'... There, there...');
+					embed_msg.setDescription(message.author.username.toString()+' is patting '+user.username+'... There, there...').setImage(data.imgs.pat.url[0]);
 				}
 				message.channel.send(embed_msg);
 			}else{
-				embed_msg.setDescription(message.author.username.toString()+' wants to pat someone but forgot to find someone to pat');
+				embed_msg.setDescription(message.author.username.toString()+' forgot to mention someone to pat, so he/she decided to pat a random loli, and...').setImage(data.imgs.pat.url[2]);
 				message.channel.send(embed_msg);
 			}
-			
 		}
 		
 		if(cmd.startsWith('idw')||cmd.startsWith('danya')||cmd.startsWith('da nya')){
@@ -172,6 +190,6 @@ client.on('message', message => {
 		}
 	}
 	
-});
+
 
 client.login(process.env.BOT_TOKEN);
