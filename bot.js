@@ -199,13 +199,13 @@ client.on('message', message => {
 				distyard = distmile * 1760;
 				distkm  = distmile * 1.609;
 				converted = true;
-				msg = distmile +' Mile ('+ distyard.toFixed(2) +' Yards) is ' + distkm.toFixed(2) +' Kilometer. For distance in Meter, just divide KM by 1000. In cm, divide by 100.000.';
+				msg = distmile +' Mile ('+ distyard.toFixed(2) +' Yards) is ' + distkm.toFixed(2) +' Kilometer. For distance in Meter, just multiply KM by 1000. In cm, multiply by 100.000.';
 			}else if(cmd.toLowerCase().endsWith('yard')||cmd.toLowerCase().endsWith('yards')||cmd.toLowerCase().endsWith('yd')||cmd.toLowerCase().endsWith('yrd')){
 				distyard= parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
 				distmile = distyard / 1760;
 				distkm  = distmile * 1.609;
 				converted = true;
-				msg = distyard +' Yards is ' + (distkm*1000).toFixed(2) +' Meter. For distance in KM, just divide by 1000. In cm, divide by 100.';
+				msg = distyard +' Yards is ' + (distkm*1000).toFixed(2) +' Meter. For distance in KM, just divide by 1000. In cm, multiply by 100.';
 			}else if(cmd.toLowerCase().endsWith('cm')||cmd.toLowerCase().endsWith('centimeter')||cmd.toLowerCase().endsWith('centi meter')){
 				distcm = parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
 				distfoot = distcm / 30.48;
