@@ -217,7 +217,7 @@ client.on('message', message => {
 				distfoot = distcm / 30.48;
 				distinch = distcm / 2.54;
 				converted = true;
-				msg = distcm +' CM ('+ (distcm/100).toFixed(2) +' Meter) is '+distfoot.toFixed(2)+' Feet, or '+distinch.toFixed(2)+' Inches ('+Math.floor(distcm / 30.48)+'\''+((distfoot%1)*12).toFixed(0)+')';
+				msg = distcm/100 +' M ('+ (distcm).toFixed(2) +' CM) is '+distfoot.toFixed(2)+' Feet, or '+distinch.toFixed(2)+' Inches ('+Math.floor(distcm / 30.48)+'\''+((distfoot%1)*12).toFixed(0)+')';
 			}else if(cmd.toLowerCase().endsWith('foot')||cmd.toLowerCase().endsWith('ft')||cmd.toLowerCase().endsWith('feet')){
 				distfoot= parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
 				distcm = distfoot * 30.48;
