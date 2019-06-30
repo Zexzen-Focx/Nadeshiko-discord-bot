@@ -39,7 +39,23 @@ client.on('message', message => {
 		const cmd = message.content.slice(1).toLowerCase();
 		
 		if (cmd.startsWith('help')) {
-			message.channel.send('\n**Prefix**: '+config.prefix+'\n\n**Commands**:\n-**boop <user>** - Boop someone, someone has been naughty...\n-**pat <user>** - Pat someone, let\'s cheer em\n-**poke <user>** - Poke someone, get their attention!\n-**idw** - Make a guess\n**-convert <temperature, example: 24C>** - Convert Temperature to Celcius, Kelvin, and Retarded\n\nDon\'t forget to thanks Nadeshiko for her services, or just greet her, no need the prefix, but **ping her** so she knows, she is a little bit klutz.\nDon\'t forget to give her morning or night greetings, she likes it as well.',{
+			var help = "";
+			help += '\n**Prefix**: '+config.prefix;
+			help += '\n\n';
+			help += '**Commands**:';
+			help += '\n';
+			help += '-**boop <user>** - Boop someone, someone has been naughty...\n';
+			help += '-**pat <user>** - Pat someone, let\'s cheer em\n';
+			help += '-**poke <user>** - Poke someone, get their attention!\n';
+			help += '-**idw** - Make a guess\n';
+			help += '-**convert <input>** - Convert the input into respective counterparts\n';
+			help += '===> Convert Temperature from/to Celcius, Kelvin, and Retarded\n';
+			help += '===> Convert Distance from/to KM, Miles, and Yards\n';
+			help += '===> Convert Height (or smaller distances) from/to Meters, CM, Feet, and Inches\n';
+			help += '\n';
+			help += 'Don\'t forget to thanks Nadeshiko for her services, or just greet her, no need the prefix, but **ping her** so she knows, she is a little bit klutz.\nDon\'t forget to give her morning or night greetings, she likes it as well.';
+		
+			message.channel.send(help,{
 				reply: message.author
 			});
 		}
@@ -128,7 +144,7 @@ client.on('message', message => {
 			var idw = data.imgs.danya.url;
 			const embed_msg = new RichEmbed()
 				.setTitle(data.imgs.danya.title)
-				.setImage(idw[Math.floor(Math.random() * idw.length)]);
+				.setImage(idw[Math.Math.floor(Math.random() * idw.length)]);
 			
 			embed_msg.setDescription('IDW here ! Are you the commander who is willing to adopt me ? I\'ll do my best !');			
 			message.channel.send(embed_msg);
@@ -139,35 +155,85 @@ client.on('message', message => {
 			var tempC;
 			var tempF;
 			var tempK;
+			
+			var distkm;
+			var distmile;
+			var distyard;
+			
+			var distcm;
+			var distm;
+			var distfoot;
+			var distinch;
 			var converted = false;
 			
-			try{
-				if(cmd.toLowerCase().endsWith('c')){
-					tempC = parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
-					tempF = (tempC*9/5)+32;
-					tempK = tempC+273.15;
-					converted = true;
-				}else if(cmd.toLowerCase().endsWith('f')){
-					tempF = parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
-					tempC = (tempF-32)*5/9;
-					tempK = tempC+273.15;
-					converted = true;
-				}else if(cmd.toLowerCase().endsWith('k')){
-					tempK = parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
-					tempC = tempK-273.15;
-					tempF = (tempC*9/5)+32;
-					converted = true;
-				}
-				
-				if(!converted){
-					message.channel.send('Gomen, I don\'t know that unit');
-				}else if (isNaN(tempC)||isNaN(tempF)||isNaN(tempK)){
-					message.channel.send('Oof, something went wrong, have you given me the right input?');
-				}else{
-					message.channel.send('Here are the conversion you asked:\n```'+tempC.toFixed(2)+' C\n'+tempF.toFixed(2)+' F\n'+tempK.toFixed(2)+' K```');
-				}
-			}catch(err) {
-				message.channel.send('Gomen, something went wrong > <\'');
+			var msg = "";
+			
+			if(cmd.toLowerCase().endsWith('c')){
+				tempC = parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
+				tempF = (tempC*9/5)+32;
+				tempK = tempC+273.15;
+				converted = true;
+				msg = tempC +' Celcius is '+tempF.toFixed(2)+' Fahrenheit or '+tempK.toFixed(2)+' Kelvin';
+			}else if(cmd.toLowerCase().endsWith('f')){
+				tempF = parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
+				tempC = (tempF-32)*5/9;
+				tempK = tempC+273.15;
+				converted = true;
+				msg = tempF +' Fahrenheit is '+tempC.toFixed(2)+' Celcius or '+tempK.toFixed(2)+' Kelvin';
+			}else if(cmd.toLowerCase().endsWith('k')){
+				tempK = parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
+				tempC = tempK-273.15;
+				tempF = (tempC*9/5)+32;
+				converted = true;
+				msg = tempK +' Kelvin is '+tempC.toFixed(2)+' Celcius or '+tempF.toFixed(2)+' Fahrenheit';
+			}
+			
+			if(cmd.toLowerCase().endsWith('km')||cmd.toLowerCase().endsWith('kilometer')||cmd.toLowerCase().endsWith('kilo meter')){
+				distkm = parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
+				distmile = distkm / 1.609;
+				distyard = distkm * 1093.613;
+				converted = true;
+				msg = distkm +' KM is '+distmile.toFixed(2)+' Mile, or ' + distyard.toFixed(2) + ' Yards.';
+			}else if(cmd.toLowerCase().endsWith('mile')||cmd.toLowerCase().endsWith('miles')||cmd.toLowerCase().endsWith('mi')){
+				distmile= parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
+				distyard = distmile * 1760;
+				distkm  = distmile * 1.609;
+				converted = true;
+				msg = distmile +' Mile ('+ distyard.toFixed(2) +' Yards) is ' + distkm.toFixed(2) +' Kilometer. For distance in Meter, just divide KM by 1000. In cm, divide by 100.000.';
+			}else if(cmd.toLowerCase().endsWith('yard')||cmd.toLowerCase().endsWith('yards')||cmd.toLowerCase().endsWith('yd')||cmd.toLowerCase().endsWith('yrd')){
+				distyard= parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
+				distmile = distyard / 1760;
+				distkm  = distmile * 1.609;
+				converted = true;
+				msg = distyard +' Yards is ' + (distkm*1000).toFixed(2) +' Meter. For distance in KM, just divide by 1000. In cm, divide by 100.';
+			}else if(cmd.toLowerCase().endsWith('cm')||cmd.toLowerCase().endsWith('centimeter')||cmd.toLowerCase().endsWith('centi meter')){
+				distcm = parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
+				distfoot = distcm / 30.48;
+				distinch = distcm / 2.54;
+				converted = true;
+				msg = distcm +' CM ('+ (distcm/100).toFixed(2) +' Meter) is '+distfoot.toFixed(2)+' Feet, or '+distinch.toFixed(2)+' Inches ('+Math.floor(distcm / 30.48)+'\''+((distfoot%1)*12).toFixed(0)+')';
+			}else if(cmd.toLowerCase().endsWith('m')||cmd.toLowerCase().endsWith('meter')||cmd.toLowerCase().endsWith('meters')){
+				distcm = parseFloat(cmd.replace ( /[^\d.-]/g, '' ))*100;
+				distfoot = distcm / 30.48;
+				distinch = distcm / 2.54;
+				converted = true;
+				msg = distcm +' CM ('+ (distcm/100).toFixed(2) +' Meter) is '+distfoot.toFixed(2)+' Feet, or '+distinch.toFixed(2)+' Inches ('+Math.floor(distcm / 30.48)+'\''+((distfoot%1)*12).toFixed(0)+')';
+			}else if(cmd.toLowerCase().endsWith('foot')||cmd.toLowerCase().endsWith('ft')||cmd.toLowerCase().endsWith('feet')){
+				distfoot= parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
+				distcm = distfoot * 30.48;
+				converted = true;
+				msg = distfoot +' Feet ('+ (distfoot*12).toFixed(2) +' Inches) is ' + (distcm*100).toFixed(2) +' Meters. For distance in KM, just divide by 1000. In cm, multiply by 100.';
+			}else if(cmd.toLowerCase().endsWith('inch')||cmd.toLowerCase().endsWith('inches')){
+				distfoot= parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
+				distcm = distfoot * 30.48;
+				converted = true;
+				msg = distfoot*12 +' Inches ('+ distfoot.toFixed(2) +' Feet) is ' + distcm.toFixed(2) +' CM. For distance in Meter, just multiply by 100. In KM, multiply by 100.000.';
+			}
+			
+			if(!converted){
+				message.channel.send('Gomen, I don\'t know that unit');
+			}else{
+				message.channel.send("```"+msg+"```");
 			}
 		}
 		
@@ -189,6 +255,7 @@ client.on('message', message => {
 		}else{
 		}
 	}
+	
 });
 
 client.login(process.env.BOT_TOKEN);
