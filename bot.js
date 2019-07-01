@@ -254,6 +254,25 @@ client.on('message', message => {
 			}else{
 			}
 		}else{
+			var msg = message.content.toLowerCase();
+			if(msg.startsWith('good night all')||msg.startsWith('good night guys')||
+				msg.startsWith('good night, all')||msg.startsWith('good night, guys')||
+				msg.startsWith('gn all')||msg.startsWith('gn guys')){
+				message.channel.send('Good Night, '+message.member.displayName.toString()+', sleep tight.');
+			}
+			
+			if(msg.startsWith('good morning all')||msg.startsWith('good morning guys')||
+				msg.startsWith('good morning, all')||msg.startsWith('good morning, guys')||
+				msg.startsWith('gn all')||msg.startsWith('gn guys')){
+				message.channel.send('Good Morning, '+message.member.displayName.toString()+', I hope your sleep was good.');
+			}
+			
+			if(msg.startsWith('i am going to sleep')||
+				msg.startsWith('i\'m going to sleep')||
+				msg.startsWith('am going to sleep')||
+				msg.startsWith('im going to sleep')){
+				message.channel.send('Sleep is good. Go to sleep, '+message.member.displayName.toString());
+			}
 		}
 	}
 	
