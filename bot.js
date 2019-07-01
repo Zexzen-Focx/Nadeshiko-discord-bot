@@ -61,15 +61,6 @@ client.on('message', message => {
 			});
 		}
 		
-		if(cmd.startsWith('t')) {
-			const user = message.mentions.members.first();
-			
-			const embed_msg = new RichEmbed()
-				.setTitle("test")
-				.setDescription(message.member.displayName.toString()+' is poking '+user.displayName);
-			message.channel.send(embed_msg);
-		}
-		
 		if(cmd.startsWith('boop')){
 			const user = message.mentions.members.first();
 			
