@@ -263,7 +263,7 @@ client.on('message', message => {
 			
 			if(msg.startsWith('good morning all')||msg.startsWith('good morning guys')||
 				msg.startsWith('good morning, all')||msg.startsWith('good morning, guys')||
-				msg.startsWith('gn all')||msg.startsWith('gn guys')){
+				msg.startsWith('morning all')||msg.startsWith('morning guys')){
 				message.channel.send('Good Morning, '+message.member.displayName.toString()+', I hope your sleep was good.');
 			}
 			
