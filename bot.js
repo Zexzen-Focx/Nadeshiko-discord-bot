@@ -250,8 +250,16 @@ client.on('message', message => {
 		}
 		
 	}else{
-		if(message.mentions.members.first()){
-			if(message.mentions.members.first().id==my_id){
+		if(message.mentions.members.first()||message.content.toLowerCase().endsWith("nadeshiko")){
+			var me = false;
+			if(typeof message.mentions.members.first() !== "undefined"){
+				if(message.mentions.members.first().id==my_id){
+					me = true;
+				}
+			}else if(message.content.toLowerCase().endsWith("nadeshiko")){
+				me = true
+			}
+			if(me){
 				var msg = message.content.toLowerCase();
 				if(msg.includes('thank')||msg.includes('thx')||msg.includes('ty')){
 					message.channel.send('You\'re welcome ^^');
