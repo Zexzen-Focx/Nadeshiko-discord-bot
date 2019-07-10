@@ -120,6 +120,17 @@ client.on('message', message => {
 			
 		}
 		
+		if(cmd.startsWith('slap')){
+			const user = message.mentions.members.first();
+			
+			const embed_msg = new RichEmbed()
+				.setTitle(data.imgs.hug.title);
+				
+			embed_msg.setDescription('Nadeshiko is still learning how to do that (Work in progress)').setImage("https://meme.xyz/uploads/posts/t/l-46489-how-to-slap-someone-through-the-internet.jpg");
+			
+			message.channel.send(embed_msg);
+		}
+		
 		if(cmd.startsWith('pat')){
 			const user = message.mentions.members.first();
 			
@@ -145,7 +156,7 @@ client.on('message', message => {
 			var idw = data.imgs.danya.url;
 			const embed_msg = new RichEmbed()
 				.setTitle(data.imgs.danya.title)
-				.setImage(idw[Math.Math.floor(Math.random() * idw.length)]);
+				.setImage(idw[Math.floor(Math.random() * idw.length)]);
 			
 			embed_msg.setDescription('IDW here ! Are you the commander who is willing to adopt me ? I\'ll do my best !');			
 			message.channel.send(embed_msg);
@@ -262,8 +273,7 @@ client.on('message', message => {
 			}
 			
 			if(msg.startsWith('good morning all')||msg.startsWith('good morning guys')||
-				msg.startsWith('good morning, all')||msg.startsWith('good morning, guys')||
-				msg.startsWith('morning all')||msg.startsWith('morning guys')){
+				msg.startsWith('good morning, all')||msg.startsWith('good morning, guys')){
 				message.channel.send('Good Morning, '+message.member.displayName.toString()+', I hope your sleep was good.');
 			}
 			
