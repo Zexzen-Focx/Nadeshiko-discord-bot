@@ -54,7 +54,7 @@ client.on('message', message => {
 			help += '===> Convert Distance from/to KM, Miles, and Yards\n';
 			help += '===> Convert Height (or smaller distances) from/to Meters, CM, Feet, and Inches\n';
 			help += '\n';
-			help += 'Don\'t forget to thanks Nadeshiko for her services, or just greet her, no need the prefix, but **ping her** so she knows, she is a little bit klutz.\nDon\'t forget to give her morning or night greetings, she likes it as well.';
+			help += 'Don\'t forget to thanks Nadeshiko for her services, or just greet her, no need the prefix, but **ping her** or **say her name in the end** so she knows, she is a little bit klutz.';
 		
 			message.channel.send(help,{
 				reply: message.author
