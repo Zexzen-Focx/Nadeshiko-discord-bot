@@ -234,7 +234,7 @@ client.on('message', message => {
 				distfoot= parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
 				distcm = distfoot * 30.48;
 				converted = true;
-				msg = distfoot +' Feet ('+ (distfoot*12).toFixed(2) +' Inches) is ' + (distcm*100).toFixed(2) +' Meters. For distance in KM, just divide by 1000. In cm, multiply by 100.';
+				msg = distfoot +' Feet ('+ (distfoot*12).toFixed(2) +' Inches) is ' + (distcm/100).toFixed(4) +' Meters. For distance in KM, just divide by 1000. In cm, multiply by 100.';
 			}else if(cmd.toLowerCase().endsWith('inch')||cmd.toLowerCase().endsWith('inches')){
 				distfoot= parseFloat(cmd.replace ( /[^\d.-]/g, '' ));
 				distcm = distfoot * 30.48;
