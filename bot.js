@@ -54,7 +54,7 @@ client.on('message', message => {
 			help += '===> Convert Distance from/to KM, Miles, and Yards\n';
 			help += '===> Convert Height (or smaller distances) from/to Meters, CM, Feet, and Inches\n';
 			help += '\n';
-			help += 'Don\'t forget to thanks Nadeshiko for her services, or just greet her, no need the prefix, but **ping her** or **say her name in the end** so she knows, she is a little bit klutz.';
+			help += 'Don\'t forget to thanks Nadeshiko for her services, or just greet her, no need the prefix, but **ping her** so she knows, she is a little bit klutz.\nDon\'t forget to give her morning or night greetings, she likes it as well.';
 		
 			message.channel.send(help,{
 				reply: message.author
@@ -124,11 +124,19 @@ client.on('message', message => {
 			const user = message.mentions.members.first();
 			
 			const embed_msg = new RichEmbed()
-				.setTitle(data.imgs.hug.title);
-				
-			embed_msg.setDescription('Nadeshiko is still learning how to do that (Work in progress)').setImage("https://meme.xyz/uploads/posts/t/l-46489-how-to-slap-someone-through-the-internet.jpg");
+				.setTitle(data.imgs.slap.title);
 			
-			message.channel.send(embed_msg);
+			if(user){
+				if(message.author.id===user.id){
+					embed_msg.setDescription(message.member.displayName.toString()+' wants me to slap himself, I will do the honor. ***slap***').setImage(data.imgs.slap.url[0]);
+				}else{
+					embed_msg.setDescription(message.member.displayName.toString()+' is slapping '+user.displayName).setImage(data.imgs.slap.url[0]);
+				}
+				message.channel.send(embed_msg);
+			}else{
+				embed_msg.setDescription(message.member.displayName.toString()+' forgot to mention who to slap, so I will slap him instead ***slap***').setImage(data.imgs.slap.url[0]);
+				message.channel.send(embed_msg);
+			}
 		}
 		
 		if(cmd.startsWith('pat')){
