@@ -3,10 +3,20 @@ const {Client, RichEmbed } = require('discord.js');
 const config = require("./conf.json");
 const data = require("./data.json");
 
+const translate = require('google-translate-api');
+
 // Create an instance of a Discord client
 const client = new Client();
 
 var my_id;
+
+var translation_in_progress = false;
+var translation_requester = "";
+var translation_content = "";
+var translation_in_progress_to = false;
+var translate_to = "";
+var translation_in_progress_from = false;
+var translate_from = "";
 
 // function reminder(client) {
     // (function loop() {	
@@ -35,8 +45,12 @@ client.on('ready', () => {
 
 //Bot Functions
 client.on('message', message => {
+	if(message.author.bot){
+		return;
+	}
+	
 	if(message.content.startsWith(config.prefix)){
-		const cmd = message.content.slice(1).toLowerCase();
+		var cmd = message.content.slice(1).toLowerCase();
 		
 		if (cmd.startsWith('help')) {
 			var help = "";
@@ -49,6 +63,7 @@ client.on('message', message => {
 			help += '-**pat <user>** - Pat someone, let\'s cheer em\n';
 			help += '-**poke <user>** - Poke someone, get their attention!\n';
 			help += '-**idw** - Make a guess\n';
+			help += '-**tranlate <from - optional>** - Translate something. Optional input "from" to determine from what language it is translated, default to Auto-Detect language.\n';
 			help += '-**convert <input>** - Convert the input into respective counterparts\n';
 			help += '===> Convert Temperature from/to Celcius, Kelvin, and Retarded\n';
 			help += '===> Convert Distance from/to KM, Miles, and Yards\n';
@@ -169,7 +184,46 @@ client.on('message', message => {
 			embed_msg.setDescription('IDW here ! Are you the commander who is willing to adopt me ? I\'ll do my best !');			
 			message.channel.send(embed_msg);
 		}
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////// Translation Function start
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
+		if(cmd.startsWith('translate')){
+			if(!translation_in_progress){
+				cmd = cmd.substr(9).trim();
+				
+				if(cmd.length==0){
+					translation_requester = message.member;
+					translation_in_progress = true;
+					
+					message.channel.send("What do you want to translate?",{
+						reply: message.author
+					});
+				}else{
+					translate_from = cmd;
+					translate('test', {from: translate_from}).then(res => {
+						translation_requester = message.member;
+						translation_in_progress = true;
+						message.channel.send("Translating from "+translate_from+". What do you want to translate?",{
+							reply: message.author
+						});
+					}).catch(err => {
+						message.channel.send('Gomen, the language ' + translate_from + ' is not known, please try again.',{
+							reply: message.author
+						})
+					});
+				}
+			}else{
+				message.channel.send("Gomenasai, I am currently translating for someone, please wait until they are done.",{
+					reply: message.author
+				});
+			}
+			return;
+		}
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////// Translation Function end
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		if(cmd.startsWith('convert')){
 			var tempC;
@@ -258,6 +312,46 @@ client.on('message', message => {
 		}
 		
 	}else{
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////// Translation Function start
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		if(translation_in_progress && message.member == translation_requester && !translation_in_progress_to){
+			translation_content = message.content;
+			message.channel.send('To which language should I translate?',{
+				reply: translation_requester
+			});
+			translation_in_progress_to = true;
+			return;
+		}
+		
+		if(translation_in_progress && message.member == translation_requester && translation_in_progress_to){
+			var translate_to = message.content;
+			
+			translation_in_progress_to = true;
+			
+			translate(translation_content, {to: translate_to}).then(res => {
+				message.channel.send('Translation to '+translate_to+'```'+res.text+'```',{
+					reply: translation_requester
+				});
+				
+				translation_in_progress_to = false;
+				translate_to = '';
+				translation_in_progress = false;
+				translation_content = "";
+			}).catch(err => {
+				message.channel.send('Gomen, the language ' + translate_to + ' is not known, please try again.',{
+					reply: translation_requester
+				});
+			});
+			return;
+		}
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////// Translation Function end
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		if(message.mentions.members.first()||message.content.toLowerCase().endsWith("nadeshiko")){
 			var me = false;
 			if(typeof message.mentions.members.first() !== "undefined"){
