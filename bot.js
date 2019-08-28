@@ -10,7 +10,10 @@ const client = new Client();
 
 var my_id;
 
+var translate_timeout;
+
 var translation_in_progress = false;
+var translate_room = '';
 var translation_requester = "";
 var translation_content = "";
 var translation_in_progress_to = false;
@@ -192,18 +195,19 @@ client.on('message', message => {
 			if(!translation_in_progress){
 				cmd = cmd.substr(9).trim();
 				
+				translate_room = message.channel;
+				translation_requester = message.member;
+				translation_in_progress = true;
+						
+				translate_timeout = setTimeout(() => translateTimeout(), 30000);
+				
 				if(cmd.length==0){
-					translation_requester = message.member;
-					translation_in_progress = true;
-					
 					message.channel.send("What do you want to translate?",{
 						reply: message.author
 					});
 				}else{
 					translate_from = cmd;
-					translate('test', {from: translate_from}).then(res => {
-						translation_requester = message.member;
-						translation_in_progress = true;
+					translate('test', {client: 'gtx', from: translate_from}).then(res => {
 						message.channel.send("Translating from "+translate_from+". What do you want to translate?",{
 							reply: message.author
 						});
@@ -211,6 +215,9 @@ client.on('message', message => {
 						message.channel.send('Gomen, the language ' + translate_from + ' is not known, please try again.',{
 							reply: message.author
 						})
+						clearTimeout(translate_timeout);
+						translateReset();
+						console.log(err);
 					});
 				}
 			}else{
@@ -318,6 +325,8 @@ client.on('message', message => {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		if(translation_in_progress && message.member == translation_requester && !translation_in_progress_to){
+			clearTimeout(translate_timeout);
+			translate_timeout = setTimeout(() => translateTimeout(), 10000);
 			translation_content = message.content;
 			message.channel.send('To which language should I translate?',{
 				reply: translation_requester
@@ -326,24 +335,25 @@ client.on('message', message => {
 			return;
 		}
 		
-		if(translation_in_progress && message.member == translation_requester && translation_in_progress_to){
+		if(translation_in_progress && message.member == translation_requester && translation_in_progress_to){			
 			var translate_to = message.content;
-			
 			translation_in_progress_to = true;
 			
-			translate(translation_content, {to: translate_to}).then(res => {
+			translate(translation_content, {client: 'gtx', to: translate_to}).then(res => {
 				message.channel.send('Translation to '+translate_to+'```'+res.text+'```',{
 					reply: translation_requester
 				});
-				
-				translation_in_progress_to = false;
-				translate_to = '';
-				translation_in_progress = false;
-				translation_content = "";
+				clearTimeout(translate_timeout);
+				translateReset();
 			}).catch(err => {
+				clearTimeout(translate_timeout);
+				translate_timeout = setTimeout(() => translateTimeout(), 10000);
+				
 				message.channel.send('Gomen, the language ' + translate_to + ' is not known, please try again.',{
 					reply: translation_requester
 				});
+				
+				console.log(err);
 			});
 			return;
 		}
@@ -394,5 +404,23 @@ client.on('message', message => {
 	}
 	
 });
+
+function translateReset(){
+	translate_room = '';
+	translation_in_progress = false;
+	translation_requester = "";
+	translation_content = "";
+	translation_in_progress_to = false;
+	translate_to = "";
+	translation_in_progress_from = false;
+	translate_from = "";
+}
+
+function translateTimeout(){
+	translate_room.send("Timeout! Please make up your mind faster next time. *pout*",{
+		reply: translation_requester
+	});
+	translateReset()
+}
 
 client.login(process.env.BOT_TOKEN);
