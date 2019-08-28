@@ -1,17 +1,14 @@
 {
-  "name": "nadeshiko-bot-zexzen",
+  "name": "nadeshiko-bot-zexzen-development",
   "version": "1.0.0",
-  "description": "Nadeshiko Bot",
+  "description": "Nadeshiko Bot Development",
   "main": "bot.js",
-  "scripts": {
-    "start": "node bot.js"
-  },
   "author": "Zexzen",
   "dependencies": {
+    "@vitalets/google-translate-api": "^3.0.0",
     "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
-    "discord.js": "^11.4.2",
-    "google-translate-api": "^2.3.0",
-    "request": "^2.88.0",
-    "winston": "^3.1.0"
+    "discord.js": "^11.5.1",
+    "request": "*",
+    "winston": "^3.2.1"
   }
 }
