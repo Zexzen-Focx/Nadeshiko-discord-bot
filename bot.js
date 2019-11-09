@@ -3,10 +3,23 @@ const {Client, RichEmbed } = require('discord.js');
 const config = require("./conf.json");
 const data = require("./data.json");
 
+const translate = require('@vitalets/google-translate-api');
+
 // Create an instance of a Discord client
 const client = new Client();
 
 var my_id;
+
+var translate_timeout;
+
+var translation_in_progress = false;
+var translate_room = '';
+var translation_requester = "";
+var translation_content = "";
+var translation_in_progress_to = false;
+var translate_to = "";
+var translation_in_progress_from = false;
+var translate_from = "";
 
 // function reminder(client) {
     // (function loop() {	
@@ -35,8 +48,16 @@ client.on('ready', () => {
 
 //Bot Functions
 client.on('message', message => {
-	if(message.content.startsWith(config.prefix)){
-		const cmd = message.content.slice(1).toLowerCase();
+	if(message.author.bot){
+		return;
+	}
+	
+	if(message.content.startsWith(config.prefix)||message.content.toLowerCase().startsWith('nadeshiko ')){
+		if(message.content.toLowerCase().startsWith('nadeshiko ')){
+			var cmd = message.content.slice(10).toLowerCase();
+		}else{
+			var cmd = message.content.slice(1).toLowerCase();
+		}
 		
 		if (cmd.startsWith('help')) {
 			var help = "";
@@ -49,6 +70,7 @@ client.on('message', message => {
 			help += '-**pat <user>** - Pat someone, let\'s cheer em\n';
 			help += '-**poke <user>** - Poke someone, get their attention!\n';
 			help += '-**idw** - Make a guess\n';
+			help += '-**tranlate <from - optional>** - Translate something. Optional input "from" to determine from what language it is translated, default to Auto-Detect language.\n';
 			help += '-**convert <input>** - Convert the input into respective counterparts\n';
 			help += '===> Convert Temperature from/to Celcius, Kelvin, and Retarded\n';
 			help += '===> Convert Distance from/to KM, Miles, and Yards\n';
@@ -160,6 +182,21 @@ client.on('message', message => {
 			}
 		}
 		
+		if(cmd.startsWith('birthday')){
+			const user = message.mentions.members.first();
+			
+			const embed_msg = new RichEmbed()
+				.setTitle(data.imgs.bday.title);
+			
+			if(user){
+				embed_msg.setDescription(message.member.displayName.toString()+' is wishing '+user.displayName+' a Happy Birthday. Happy Birthday!').setImage(data.imgs.bday.url[0]);
+				message.channel.send(embed_msg);
+			}else{
+				embed_msg.setDescription(message.member.displayName.toString()+' is wishing someone a Happy Birthday. Happy Birthday!').setImage(data.imgs.bday.url[0]);
+				message.channel.send(embed_msg);
+			}
+		}
+		
 		if(cmd.startsWith('idw')||cmd.startsWith('danya')||cmd.startsWith('da nya')){
 			var idw = data.imgs.danya.url;
 			const embed_msg = new RichEmbed()
@@ -170,6 +207,57 @@ client.on('message', message => {
 			message.channel.send(embed_msg);
 		}
 		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////// Translation Function start
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		if(cmd.startsWith('translate')){
+			if(!translation_in_progress){
+				cmd = cmd.substr(9).trim();
+				
+				translate_room = message.channel;
+				translation_requester = message.member;
+				translation_in_progress = true;
+						
+				translate_timeout = setTimeout(() => translateTimeout(), 30000);
+				
+				if(cmd.length==0){
+					message.channel.send("What do you want to translate? (type **-cancel** to stop translation)",{
+						reply: message.author
+					});
+				}else{
+					translate_from = cmd;
+					translate('test', {client: 'gtx', from: translate_from}).then(res => {
+						message.channel.send("Translating from "+translate_from+". What do you want to translate? (type **-cancel** to stop translation)",{
+							reply: message.author
+						});
+					}).catch(err => {
+						message.channel.send('Gomen, the language ' + translate_from + ' is not known, please try again.')
+						clearTimeout(translate_timeout);
+						translateReset();
+						console.log(err);
+					});
+				}
+			}else{
+				message.channel.send("Gomenasai, I am currently translating for someone, please wait until they are done.",{
+					reply: message.author
+				});
+			}
+			return;
+		}
+		if(cmd.startsWith('cancel')){
+			if(translation_in_progress && message.member == translation_requester){
+				message.channel.send("Translation request cancelled");
+				clearTimeout(translate_timeout);
+				translateReset();
+				return;
+			}
+		}
+		
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////// Translation Function end
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		if(cmd.startsWith('convert')){
 			var tempC;
@@ -258,6 +346,45 @@ client.on('message', message => {
 		}
 		
 	}else{
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////// Translation Function start
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		if(translation_in_progress && message.member == translation_requester && !translation_in_progress_to){
+			clearTimeout(translate_timeout);
+			translate_timeout = setTimeout(() => translateTimeout(), 10000);
+			translation_content = message.content;
+			message.channel.send('To which language should I translate?');
+			translation_in_progress_to = true;
+			return;
+		}
+		
+		if(translation_in_progress && message.member == translation_requester && translation_in_progress_to){			
+			var translate_to = message.content;
+			translation_in_progress_to = true;
+			
+			translate(translation_content, {client: 'gtx', to: translate_to}).then(res => {
+				message.channel.send('Translation to '+translate_to+'```'+res.text+'```',{
+					reply: translation_requester
+				});
+				clearTimeout(translate_timeout);
+				translateReset();
+			}).catch(err => {
+				clearTimeout(translate_timeout);
+				translate_timeout = setTimeout(() => translateTimeout(), 10000);
+				
+				message.channel.send('Gomen, the language ' + translate_to + ' is not known, please try again. (type **-cancel** to stop translation)');
+				
+				console.log(err);
+			});
+			return;
+		}
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////// Translation Function end
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		if(message.mentions.members.first()||message.content.toLowerCase().endsWith("nadeshiko")){
 			var me = false;
 			if(typeof message.mentions.members.first() !== "undefined"){
@@ -300,5 +427,23 @@ client.on('message', message => {
 	}
 	
 });
+
+function translateReset(){
+	translate_room = '';
+	translation_in_progress = false;
+	translation_requester = "";
+	translation_content = "";
+	translation_in_progress_to = false;
+	translate_to = "";
+	translation_in_progress_from = false;
+	translate_from = "";
+}
+
+function translateTimeout(){
+	translate_room.send("Timeout! Please make up your mind faster next time. *pout*",{
+		reply: translation_requester
+	});
+	translateReset()
+}
 
 client.login(process.env.BOT_TOKEN);
