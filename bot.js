@@ -3,6 +3,8 @@ const {Client, RichEmbed } = require('discord.js');
 const config = require("./conf.json");
 const data = require("./data.json");
 
+const translate = require('vitalets/google-translate-api');
+
 // Create an instance of a Discord client
 const client = new Client();
 
