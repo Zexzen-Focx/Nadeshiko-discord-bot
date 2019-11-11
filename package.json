@@ -11,6 +11,8 @@
     "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
     "discord.js": "^11.4.2",
     "request": "^2.88.0",
-    "winston": "^3.1.0"
+    "winston": "^3.1.0",
+    "@discordjs/uws" : "^10.149.0",
+    "@k3rn31p4nic/google-translate-api": "^@1.1.0"
   }
 }
