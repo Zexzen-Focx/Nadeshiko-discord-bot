@@ -364,20 +364,39 @@ client.on('message', message => {
 			var translate_to = message.content;
 			translation_in_progress_to = true;
 			
-			translate(translation_content, {client: 'gtx', to: translate_to}).then(res => {
-				message.channel.send('Translation to '+translate_to+'```'+res.text+'```',{
-					reply: translation_requester
+			if(translate_from == ""){
+				translate(translation_content, {client: 'gtx', to: translate_to}).then(res => {
+					message.channel.send('Translation to '+translate_to+'```'+res.text+'```',{
+						reply: translation_requester
+					});
+					clearTimeout(translate_timeout);
+					translateReset();
+				}).catch(err => {
+					clearTimeout(translate_timeout);
+					translate_timeout = setTimeout(() => translateTimeout(), 10000);
+					
+					message.channel.send('Gomen, the language ' + translate_to + ' is not known, please try again. (type **-cancel** to stop translation)');
+					
+					console.log(err);
 				});
-				clearTimeout(translate_timeout);
-				translateReset();
-			}).catch(err => {
-				clearTimeout(translate_timeout);
-				translate_timeout = setTimeout(() => translateTimeout(), 10000);
-				
-				message.channel.send('Gomen, the language ' + translate_to + ' is not known, please try again. (type **-cancel** to stop translation)');
-				
-				console.log(err);
-			});
+			}else{
+				translate(translation_content, {client: 'gtx', from: translate_from, to: translate_to}).then(res => {
+					message.channel.send('Translation to '+translate_to+'```'+res.text+'```',{
+						reply: translation_requester
+					});
+					clearTimeout(translate_timeout);
+					translateReset();
+				}).catch(err => {
+					clearTimeout(translate_timeout);
+					translate_timeout = setTimeout(() => translateTimeout(), 10000);
+					
+					message.channel.send('Gomen, the language ' + translate_to + ' is not known, please try again. (type **-cancel** to stop translation)');
+					
+					console.log(err);
+				});
+			}
+			
+			
 			return;
 		}
 		
