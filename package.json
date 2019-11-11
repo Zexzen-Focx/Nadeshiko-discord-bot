@@ -13,6 +13,6 @@
     "request": "^2.88.0",
     "winston": "^3.1.0",
     "@discordjs/uws" : "^10.149.0",
-    "@k3rn31p4nic/google-translate-api": "^@1.1.0"
+    "@k3rn31p4nic/google-translate-api": "^1.1.0"
   }
 }
