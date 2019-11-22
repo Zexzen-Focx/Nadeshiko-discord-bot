@@ -351,59 +351,6 @@ client.on('message', message => {
 		//////////////////////////////////// Translation Function start
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		if(translation_in_progress && message.member == translation_requester && !translation_in_progress_to){
-			clearTimeout(translate_timeout);
-			translate_timeout = setTimeout(() => translateTimeout(), 10000);
-			translation_content = message.content;
-			message.channel.send('To which language should I translate?');
-			translation_in_progress_to = true;
-			return;
-		}
-		
-		if(translation_in_progress && message.member == translation_requester && translation_in_progress_to){			
-			var translate_to = message.content;
-			translation_in_progress_to = true;
-			
-			if(translate_from == ""){
-				translate(translation_content, {client: 'gtx', to: translate_to}).then(res => {
-					message.channel.send('Translation to '+translate_to+'```'+res.text+'```',{
-						reply: translation_requester
-					});
-					clearTimeout(translate_timeout);
-					translateReset();
-				}).catch(err => {
-					clearTimeout(translate_timeout);
-					translate_timeout = setTimeout(() => translateTimeout(), 10000);
-					
-					message.channel.send('Gomen, the language ' + translate_to + ' is not known, please try again. (type **-cancel** to stop translation)');
-					
-					console.log(err);
-				});
-			}else{
-				translate(translation_content, {client: 'gtx', from: translate_from, to: translate_to}).then(res => {
-					message.channel.send('Translation to '+translate_to+'```'+res.text+'```',{
-						reply: translation_requester
-					});
-					clearTimeout(translate_timeout);
-					translateReset();
-				}).catch(err => {
-					clearTimeout(translate_timeout);
-					translate_timeout = setTimeout(() => translateTimeout(), 10000);
-					
-					message.channel.send('Gomen, the language ' + translate_to + ' is not known, please try again. (type **-cancel** to stop translation)');
-					
-					console.log(err);
-				});
-			}
-			
-			
-			return;
-		}
-		
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//////////////////////////////////// Translation Function end
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
 		if(message.mentions.members.first()||message.content.toLowerCase().endsWith("nadeshiko")){
 			var me = false;
 			if(typeof message.mentions.members.first() !== "undefined"){
@@ -428,12 +375,36 @@ client.on('message', message => {
 			}
 		}else{
 			var msg = message.content.toLowerCase();
-			if(data.responses.sleep.keywords.includes(msg.replace(' now',''))){
-				message.channel.send('Good Night, '+message.member.displayName.toString()+', sleep tight.');
+			var dad_joke = false;
+			if(message.content.toLowerCase().startsWith('i am ')||message.content.toLowerCase().startsWith('i\'m ')||message.content.toLowerCase().startsWith('im ')){
+				if(message.content.toLowerCase().startsWith('i am ')){
+					var mess = msg.slice(5);
+					if(mess.length!=0){
+						dad_joke = hi_dad_joke(message.channel,mess);
+					}
+				}
+					
+				if(message.content.toLowerCase().startsWith('i\'m ')){
+					var mess = msg.slice(4);
+					if(mess.length!=0){
+						dad_joke = hi_dad_joke(message.channel,mess);
+					}
+				}
+					
+				if(message.content.toLowerCase().startsWith('im ')){
+					var mess = msg.slice(3);
+					if(mess.length!=0){
+						dad_joke = hi_dad_joke(message.channel,mess);
+					}
+				}
 			}
-		
-			if(data.responses.morning.keywords.includes(msg)){
-				message.channel.send('Good Morning, '+message.member.displayName.toString()+', I hope your sleep was good.');
+			
+			if(!dad_joke){
+				if(data.responses.sleep.keywords.includes(msg.replace(' now',''))){
+					message.channel.send('Good Night, '+message.member.displayName.toString()+', sleep tight.');
+				}else if(data.responses.morning.keywords.includes(msg)){
+					message.channel.send('Good Morning, '+message.member.displayName.toString()+', I hope your sleep was good.');
+				}
 			}
 			
 			// if(msg.startsWith('i am going to sleep')||
@@ -463,6 +434,17 @@ function translateTimeout(){
 		reply: translation_requester
 	});
 	translateReset()
+}
+
+function hi_dad_joke(channel, text){
+	if(Math.random()<0.1){
+		if(text.split(" ").length - 1 < 3){
+			channel.send('Hi '+text+', I am Nadeshiko');
+		}
+		return true;
+	}else{
+		return false;
+	}
 }
 
 client.login(process.env.BOT_TOKEN);
