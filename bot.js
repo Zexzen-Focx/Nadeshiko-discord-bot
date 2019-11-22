@@ -350,7 +350,54 @@ client.on('message', message => {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//////////////////////////////////// Translation Function start
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		if(translation_in_progress && message.member == translation_requester && !translation_in_progress_to){
+			clearTimeout(translate_timeout);
+			translate_timeout = setTimeout(() => translateTimeout(), 10000);
+			translation_content = message.content;
+			message.channel.send('To which language should I translate?');
+			translation_in_progress_to = true;
+			return;
+		}
 		
+		if(translation_in_progress && message.member == translation_requester && translation_in_progress_to){			
+			var translate_to = message.content;
+			translation_in_progress_to = true;
+			
+			if(translate_from == ""){
+				translate(translation_content, {client: 'gtx', to: translate_to}).then(res => {
+					message.channel.send('Translation to '+translate_to+'```'+res.text+'```',{
+						reply: translation_requester
+					});
+					clearTimeout(translate_timeout);
+					translateReset();
+				}).catch(err => {
+					clearTimeout(translate_timeout);
+					translate_timeout = setTimeout(() => translateTimeout(), 10000);
+					
+					message.channel.send('Gomen, the language ' + translate_to + ' is not known, please try again. (type **-cancel** to stop translation)');
+					
+					console.log(err);
+				});
+			}else{
+				translate(translation_content, {client: 'gtx', from: translate_from, to: translate_to}).then(res => {
+					message.channel.send('Translation to '+translate_to+'```'+res.text+'```',{
+						reply: translation_requester
+					});
+					clearTimeout(translate_timeout);
+					translateReset();
+				}).catch(err => {
+					clearTimeout(translate_timeout);
+					translate_timeout = setTimeout(() => translateTimeout(), 10000);
+					
+					message.channel.send('Gomen, the language ' + translate_to + ' is not known, please try again. (type **-cancel** to stop translation)');
+					
+					console.log(err);
+				});
+			}
+			
+			
+			return;
+		}
 		if(message.mentions.members.first()||message.content.toLowerCase().endsWith("nadeshiko")){
 			var me = false;
 			if(typeof message.mentions.members.first() !== "undefined"){
