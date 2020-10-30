@@ -1,5 +1,5 @@
 // Import the discord.js module
-const {Client, RichEmbed } = require('discord.js');
+const {Client, MessageEmbed } = require('discord.js');
 const config = require("./conf.json");
 const data = require("./data.json");
 
@@ -86,7 +86,7 @@ client.on('message', message => {
 		if(cmd.startsWith('boop')){
 			const user = message.mentions.members.first();
 			
-			const embed_msg = new RichEmbed()
+			const embed_msg = new MessageEmbed()
 				.setTitle(data.imgs.boop.title);
 			
 			if(user){
@@ -105,7 +105,7 @@ client.on('message', message => {
 		if(cmd.startsWith('poke')){
 			const user = message.mentions.members.first();
 			
-			const embed_msg = new RichEmbed()
+			const embed_msg = new MessageEmbed()
 				.setTitle(data.imgs.poke.title);
 			
 			if(user){
@@ -125,7 +125,7 @@ client.on('message', message => {
 		if(cmd.startsWith('hug')){
 			const user = message.mentions.members.first();
 			
-			const embed_msg = new RichEmbed()
+			const embed_msg = new MessageEmbed()
 				.setTitle(data.imgs.hug.title);
 			
 			if(user){
@@ -145,7 +145,7 @@ client.on('message', message => {
 		if(cmd.startsWith('slap')){
 			const user = message.mentions.members.first();
 			
-			const embed_msg = new RichEmbed()
+			const embed_msg = new MessageEmbed()
 				.setTitle(data.imgs.slap.title);
 			
 			if(user){
@@ -164,7 +164,7 @@ client.on('message', message => {
 		if(cmd.startsWith('pat')){
 			const user = message.mentions.members.first();
 			
-			const embed_msg = new RichEmbed()
+			const embed_msg = new MessageEmbed()
 				.setTitle(data.imgs.pat.title);
 			
 			if(user){
@@ -175,17 +175,16 @@ client.on('message', message => {
 				}else{
 					embed_msg.setDescription(message.member.displayName.toString()+' is patting '+user.displayName+'... There, there...').setImage(data.imgs.pat.url[0]);
 				}
-				message.channel.send(embed_msg);
 			}else{
 				embed_msg.setDescription(message.member.displayName.toString()+' forgot to mention someone to pat, so he/she decided to pat a random loli, and...').setImage(data.imgs.pat.url[2]);
-				message.channel.send(embed_msg);
 			}
+			message.channel.send(embed_msg).then().catch(console.error)
 		}
 		
 		if(cmd.startsWith('birthday')){
 			const user = message.mentions.members.first();
 			
-			const embed_msg = new RichEmbed()
+			const embed_msg = new MessageEmbed()
 				.setTitle(data.imgs.bday.title);
 			
 			if(user){
@@ -199,7 +198,7 @@ client.on('message', message => {
 		
 		if(cmd.startsWith('idw')||cmd.startsWith('danya')||cmd.startsWith('da nya')){
 			var idw = data.imgs.danya.url;
-			const embed_msg = new RichEmbed()
+			const embed_msg = new MessageEmbed()
 				.setTitle(data.imgs.danya.title)
 				.setImage(idw[Math.floor(Math.random() * idw.length)]);
 			
@@ -350,6 +349,7 @@ client.on('message', message => {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//////////////////////////////////// Translation Function start
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		if(translation_in_progress && message.member == translation_requester && !translation_in_progress_to){
 			clearTimeout(translate_timeout);
 			translate_timeout = setTimeout(() => translateTimeout(), 10000);
@@ -398,6 +398,11 @@ client.on('message', message => {
 			
 			return;
 		}
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////// Translation Function end
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		if(message.mentions.members.first()||message.content.toLowerCase().endsWith("nadeshiko")){
 			var me = false;
 			if(typeof message.mentions.members.first() !== "undefined"){
