@@ -1,0 +1,17 @@
+{
+  "name": "nadeshiko-bot-zexzen",
+  "version": "1.0.0",
+  "description": "Nadeshiko Bot",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "author": "Zexzen",
+  "dependencies": {
+    "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+    "discord.js": "^12.4.1",
+    "dotenv": "^16.0.2",
+    "request": "*",
+    "winston": "^3.3.3"
+  }
+}

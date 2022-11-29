@@ -1,0 +1,62 @@
+{
+	"commands":{
+		"help":"Get list of all commands available"
+	},
+	"imgs":{
+		"boop": {
+			"title":"Boop!",
+			"url":["https://cdn.discordapp.com/attachments/492593927560495115/496600385545568256/Boop.gif","https://media2.giphy.com/media/JmbwX2xrXVi80/giphy.gif","https://i.imgur.com/sVzpgUc.gif"]
+		},
+		"poke": {
+			"title":"Poooooke~",
+			"url":["https://cdn.discordapp.com/attachments/477664281559826446/593491429368528926/b6e.gif","https://pa1.narvii.com/5700/24709a19bf5cfc7ff889ee9eee3444a74bc7c33d_hq.gif","https://cdn.discordapp.com/attachments/492593927560495115/593871102497783818/ezgif-1-658b07365385.gif"]
+		},
+		"pat": {
+			"title":"Pat... Pat...",
+			"url":["https://cdn.discordapp.com/attachments/477664281559826446/593492005804572677/kanna_pat.gif","http://i.imgur.com/b3SzPZh.gif","https://media1.tenor.com/images/0476677fe8c841729594c6b3fa5652aa/tenor.gif","https://66.media.tumblr.com/cadf248febe96afdd6869b7a95600abb/tumblr_onjo4cGrZE1vhnny1o1_500.gif"]
+		},
+		"hug": {
+			"title":"Huggles",
+			"url":["https://cdn.discordapp.com/attachments/477664281559826446/593860489801629696/tumblr_p1ftuxzWMk1syeyvqo1_500.gif","https://media1.tenor.com/images/c0060df53661d3d89b586690a6ab4f0a/tenor.gif","https://media1.tenor.com/images/a2749980c33e440e526579ee5fc2e0a0/tenor.gif?itemid=5634620"]
+		},
+		"bday": {
+			"title":"Happy Birthday!",
+			"url":["https://thumbs.gfycat.com/FrayedGrimColt-size_restricted.gif"]
+		},
+		"danya": {
+			"title":"IDW DA NYAAAA",
+			"url":["https://vignette.wikia.nocookie.net/girlsfrontline/images/9/98/Idw_norm.png/revision/latest?cb=20160919122621","https://cdn.discordapp.com/attachments/492593927560495115/593436101377785866/ezgif-1-2d760100c292.gif","https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bb041e3e-a96a-49f7-b53c-75865cf596db/dcbojng-d7a901c2-db76-4ad8-8004-c82f2096d5ab.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JiMDQxZTNlLWE5NmEtNDlmNy1iNTNjLTc1ODY1Y2Y1OTZkYlwvZGNib2puZy1kN2E5MDFjMi1kYjc2LTRhZDgtODAwNC1jODJmMjA5NmQ1YWIuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.hpZuNU4Ro7fozvJMpPyBP9MZPobAwKlIqjSeS64352c","https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bb041e3e-a96a-49f7-b53c-75865cf596db/dbh0blz-9909b004-6bdc-450a-863a-6b509e531f12.jpg/v1/fill/w_1024,h_683,q_75,strp/girls_frontline__idw_by_jazzjack_kht_dbh0blz-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NjgzIiwicGF0aCI6IlwvZlwvYmIwNDFlM2UtYTk2YS00OWY3LWI1M2MtNzU4NjVjZjU5NmRiXC9kYmgwYmx6LTk5MDliMDA0LTZiZGMtNDUwYS04NjNhLTZiNTA5ZTUzMWYxMi5qcGciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.wGu_kvbOW7rlU1fmaQq1Yu91GbD2cCx7ahVXesnq7JE","https://img.fireden.net/vg/image/1558/44/1558444245664.gif","https://i.kym-cdn.com/photos/images/original/001/380/356/922.gif"]
+		},
+		"slap": {
+			"title":"Slap!",
+			"url":["https://cdn.discordapp.com/attachments/477666627354361856/599447027738345483/Shingeki_No_Kyojin_Attack_On_Titan_OVA_2_-_Sasha_elbows_Reiner.gif"]
+		}
+	},
+	"responses":{
+		"morning":{
+			"keywords":[
+				"i am awake",
+				"i have awake",
+				"i have awaken",
+				"am awake",
+				"i am awoke",
+				"am awoke",
+				"good morning guys"
+			]
+		},
+		"sleep":{
+			"keywords":[
+				"i go sleep",
+				"going to sleep",
+				"i am going to sleep",
+				"im going to sleep",
+				"am going to sleep",
+				"good night guys",
+				"gonna sleep",
+				"am gonna sleep",
+				"gonna slep",
+				"am gonna slep"
+			]
+		}
+	}
+}
